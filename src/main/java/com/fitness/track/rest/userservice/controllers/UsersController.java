@@ -1,5 +1,8 @@
 package com.fitness.track.rest.userservice.controllers;
 
+import java.sql.Timestamp;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.TransientDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -25,7 +28,7 @@ public class UsersController {
     }
     
     @GetMapping("/Users/UserId/{userId}")
-    public ResponseEntity<UsersEntity> getUsersEntity(@PathVariable("userId") String userId) {
+    public ResponseEntity<UsersEntity> getUsersEntity(@PathVariable("userId") UUID userId) {
     	UsersEntity usersEntity = usersService.findByUserId(userId);
     	if (usersEntity == null) {
     		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -33,25 +36,31 @@ public class UsersController {
     	return new ResponseEntity<UsersEntity>(usersEntity, HttpStatus.OK);
     }
     
-	@SuppressWarnings("rawtypes")
 	@PostMapping("/Users/UserId/create")
-    public ResponseEntity createUserEntity(@RequestBody final UsersEntity usersEntity) {
+    public ResponseEntity<UsersEntity> createUserEntity(@RequestBody final UsersEntity usersEntity) {
+		System.out.println("In Controller.......");
 		if (usersEntity == null) {
+			System.out.println("Bad Request.......");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
     	try {
-    		usersService.createUserId(usersEntity);
-    		return new ResponseEntity(HttpStatus.OK);
+    		System.out.println("Creating User Id from Controller.......");
+    		UUID uuid = UUID.randomUUID();
+    		usersEntity.setUserId(uuid);
+    		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    		usersEntity.setCreatedTimestamp(timestamp);
+    		usersService.createUser(usersEntity);
+    		return new ResponseEntity<UsersEntity>(usersEntity, HttpStatus.OK);
     	} catch (TransientDataAccessException e) {
-    		return new ResponseEntity(HttpStatus.SERVICE_UNAVAILABLE);
+    		return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
     	} catch (Exception e) {
-    		return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+    		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     	}
     }
     
     @SuppressWarnings({ "rawtypes", "unused" })
 	@DeleteMapping("/Users/UserId/{userId}")
-    public ResponseEntity deleteUserEntity(@PathVariable("userId") String userId) {
+    public ResponseEntity deleteUserEntity(@PathVariable("userId") UUID userId) {
     	try {
     		UsersEntity usersEntity = usersService.findByUserId(userId);
     		return new ResponseEntity(HttpStatus.OK);

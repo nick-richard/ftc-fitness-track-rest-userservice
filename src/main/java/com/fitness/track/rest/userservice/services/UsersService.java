@@ -1,5 +1,7 @@
 package com.fitness.track.rest.userservice.services;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +18,13 @@ public class UsersService {
 		this.usersRepository = usersRepository;
 	}
 	
-	public UsersEntity findByUserId(String userId) {
+	public UsersEntity findByUserId(UUID userId) {
 		UsersEntity usersEntity = usersRepository.findByUserId(userId);
 		return usersEntity;
 	}
 	
-	public void createUserId(UsersEntity usersEntity) {
+	public void createUser(UsersEntity usersEntity) {
+		System.out.println("In Service Creating User.......");
 		usersRepository.save(usersEntity);
 	}
 	

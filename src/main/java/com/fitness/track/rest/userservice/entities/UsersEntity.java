@@ -2,6 +2,7 @@ package com.fitness.track.rest.userservice.entities;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +16,7 @@ public class UsersEntity implements Serializable{
 	
 	@Id
 	@Column(name="user_id")
-	private String userId;
+	private UUID userId;
 	
 	@Column(name="first_name")
 	private String firstName;
@@ -35,11 +36,11 @@ public class UsersEntity implements Serializable{
 	public UsersEntity() {		
 	}
 
-	public String getUserId() {
+	public UUID getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(UUID userId) {
 		this.userId = userId;
 	}
 

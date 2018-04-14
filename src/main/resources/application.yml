@@ -4,9 +4,16 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: validate
+    properties:
+      hibernate:   
+        temp:
+          use_jdbc_metadata_defaults: false
   datasource:
     platform: postgres
     url: jdbc:postgresql://nickhomedbinstance.cksjukbifj19.us-west-2.rds.amazonaws.com:5432/nickhomedb
     username: nickhome
     password: nickhome
     driver-class-name: org.postgresql.Driver
+    
+server:
+  port: 8093
