@@ -1,9 +1,12 @@
 spring:
-  datasource:
-    url:
-    username:
-    password:
-    driver-class-name:
   jpa:
-    database-platform:
-    
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://nickhomedbinstance.cksjukbifj19.us-west-2.rds.amazonaws.com:5432/nickhomedb
+    username: nickhome
+    password: nickhome
+    driver-class-name: org.postgresql.Driver
